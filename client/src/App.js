@@ -34,36 +34,24 @@ const StyledTableCell = withStyles((theme) => ({
 }))(TableCell);
 
 
-
-const customer = [{
-  'id':1,
-  'image':'http://placeimg.com/64/64/any',
-  'name':'홍길동',
-  'birthday':'19821110',
-  'gender':'남자',
-  'job':'programmer',
-},
-{
-
-  'id':2,
-  'image':'http://placeimg.com/64/64/any',
-  'name':'홍길동1',
-  'birthday':'19821111',
-  'gender':'남자',
-  'job':'programmer',
-},
-{
-
-  'id':3,
-  'image':'http://placeimg.com/64/64/any',
-  'name':'홍길동2',
-  'birthday':'19821112',
-  'gender':'남자',
-  'job':'programmer',
-}
-]
-
 class App extends Component{
+
+  state ={
+    customers: ""
+  }
+
+  componentDidMount(){
+    this.callApi()
+    .then(res=> this.setState({customers: res}))
+    .catch(err => console.log(err));
+  }
+
+  callApi = async() => {
+    const response = await fetch('/api/customers');
+    const body = await response.json();
+    return body;
+  }
+
   render(){
 
     const {classes} = this.props;
@@ -80,7 +68,7 @@ class App extends Component{
             <StyledTableCell align="center">직업</StyledTableCell>
           </TableHead>
           <TableBody> {
-          customer.map(c => {
+          this.state.customers ? this.state.customers.map(c => {
             return(
               <Customer
               key={c.id}
@@ -92,7 +80,7 @@ class App extends Component{
               job = {c.job}
               ></Customer>
             );
-          })
+          }) : ""
         }
         </TableBody>
        
