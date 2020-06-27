@@ -3,14 +3,16 @@ const bodyParser = require('body-parser');
 const app = express();
 const fs =require('fs');
 const port = process.env.PORT || 5000;
-
 const multer =require('multer');
-const upload_img = multer({dest: './upload_img'});
+
+const upload_img = multer({ dest: 'upload_img/', limits: { fileSize: 10 * 1024 * 1024 } });
 
 //app.use(cors());
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
+
+app.use('/image',express.static('./upload_img'));
 
 const data = fs.readFileSync('./database.json');
 const conf = JSON.parse(data);
@@ -25,8 +27,6 @@ const connection = mysql.createConnection({
 });
 connection.connect();
 
-app.use('/image',express.static('./upload_img'));
-
 app.get('/api/customers', (req,res) => {
    connection.query(
      "select * from customer",
@@ -36,8 +36,8 @@ app.get('/api/customers', (req,res) => {
    );
 });
 
-app.post('/api/customers',upload_img.single('image'), (res, req) => {
-  let sql ='insert into customer values (null, ?,?,?,?,?)';
+app.post('/api/customers', upload_img.single('image'), (req, res) => {
+  let sql ='INSERT INTO customer VALUES (null, ?,?,?,?,?)';
   let image = '/image/' + req.file.filename;
   let name = req.body.name;
   let birthday = req.body.birthday;

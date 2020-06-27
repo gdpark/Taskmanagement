@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import logo from './logo.svg';
+//import logo from './logo.svg';
 import './App.css';
 import Customer from './components/Customer';
 import Table from '@material-ui/core/Table'
@@ -7,7 +7,7 @@ import TableHead from '@material-ui/core/TableHead'
 import TableBody from '@material-ui/core/TableBody'
 import TableRow from '@material-ui/core/TableRow'
 import TableCell from '@material-ui/core/TableCell'
-import { withStyles, makeStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper'
 import TableContainer from '@material-ui/core/TableContainer';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -41,9 +41,27 @@ const StyledTableCell = withStyles((theme) => ({
 
 class App extends Component{
 
-  state ={
-    customers: "",
-    completed:0
+  // state ={
+  //   customers: "",
+  //   completed:0
+  // }
+
+  constructor(props){
+    super(props);
+    this.state ={
+      customers: '',
+      completed: 0
+    }
+  }
+
+  stateRefresh = () => {
+    this.setState({
+      customers:'',
+      completed:0
+    });
+    this.callApi()
+    .then(res=> this.setState({customers: res}))
+    .catch(err => console.log(err));
   }
 
   componentDidMount(){
@@ -102,7 +120,7 @@ class App extends Component{
         </TableBody>
         </Table>
      </TableContainer>
-     <CustomerAdd></CustomerAdd>
+     <CustomerAdd stateRefresh={this.stateRefresh} />
      </div>
     );
   }
