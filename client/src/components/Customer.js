@@ -2,6 +2,7 @@ import React from 'react';
 import TableRow from '@material-ui/core/TableRow'
 import TableCell from '@material-ui/core/TableCell'
 import { withStyles } from '@material-ui/core/styles';
+import CustomerDelete from './CustomerDelete';
 
 const StyledTableRow = withStyles((theme) => ({
     root: {
@@ -31,6 +32,7 @@ class Customer extends React.Component {
                <StyledTableCell  align="center">{this.props.birthday}</StyledTableCell >
                <StyledTableCell  align="center">{this.props.gender}</StyledTableCell >
                <StyledTableCell  align="center">{this.props.job}</StyledTableCell >
+               <StyledTableCell><CustomerDelete stateRefresh = {this.props.stateRefresh} id={this.props.id}/></StyledTableCell>
                </StyledTableRow>
           
         );

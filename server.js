@@ -29,15 +29,24 @@ connection.connect();
 
 app.get('/api/customers', (req,res) => {
    connection.query(
-     "select * from customer",
+     "select * from customer where isDeleted = 0",
      (err,rows,fields) => {
        res.send(rows);
      }
    );
 });
 
+app.delete('/api/customers/:id', (req,res) => {
+  let sql = 'update customer set isDeleted = 1 where id= ?';
+  let params = [req.param.id];
+  connection.query(sql, params,
+    (err, rows, fields) => {
+    res.send(rows);
+    })
+});
+
 app.post('/api/customers', upload_img.single('image'), (req, res) => {
-  let sql ='INSERT INTO customer VALUES (null, ?,?,?,?,?)';
+  let sql ='INSERT INTO customer VALUES (null, ?,?,?,?,now(), 0)';
   let image = '/image/' + req.file.filename;
   let name = req.body.name;
   let birthday = req.body.birthday;
