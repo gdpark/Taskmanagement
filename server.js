@@ -46,7 +46,7 @@ app.delete('/api/customers/:id', (req,res) => {
 });
 
 app.post('/api/customers', upload_img.single('image'), (req, res) => {
-  let sql ='INSERT INTO customer VALUES (null, ?,?,?,?,now(), 0)';
+  let sql ='INSERT INTO customer VALUES (null,?, ?,?,?,?,now(), 0)';
   let image = '/image/' + req.file.filename;
   let name = req.body.name;
   let birthday = req.body.birthday;
