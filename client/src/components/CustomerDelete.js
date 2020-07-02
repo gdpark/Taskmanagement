@@ -12,8 +12,18 @@ class CustomerDelete extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            open : false
+        
+            open: false
         }
+    }
+
+
+    deleteCustomer(id){
+        const url = '/api/customers/'+id;
+        fetch(url, {
+            method : 'DELETE'
+        });
+        this.props.stateRefresh()
     }
 
     handleClickOpen = () => {
@@ -28,13 +38,7 @@ class CustomerDelete extends React.Component {
         })
     }
 
-    deleteCustomer(id){
-        const url = '/api/customers/'+id;
-        fetch(url, {
-            method : 'DELETE'
-        });
-        this.props.stateRefresh();
-    }
+    
 
     render() {
         return (
@@ -49,7 +53,7 @@ class CustomerDelete extends React.Component {
                 </DialogContent>
                 <DialogActions>
                     <Button variant="contained" color="primary" onClick={(e)=>{this.deleteCustomer(this.props.id)}}>삭제</Button>
-                    <Button variant="outlined" color="primary" onClick={this.handleClose}>닫기</Button>
+                    <Button variant="outlined"  color="primary" onClick={this.handleClose}>닫기</Button>
                 </DialogActions>
             </Dialog>
             </div>

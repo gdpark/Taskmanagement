@@ -37,8 +37,9 @@ app.get('/api/customers', (req,res) => {
 });
 
 app.delete('/api/customers/:id', (req,res) => {
+
   let sql = 'update customer set isDeleted = 1 where id= ?';
-  let params = [req.param.id];
+  let params = [req.params.id];
   connection.query(sql, params,
     (err, rows, fields) => {
     res.send(rows);
