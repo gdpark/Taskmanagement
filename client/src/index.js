@@ -4,9 +4,18 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
+// web font
+import {MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+
+const theme = createMuiTheme({
+  typography : {
+    fontFamily: '"Noto Sans KR", serif',
+  }
+})
+
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <MuiThemeProvider theme={theme}><App /></MuiThemeProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );
